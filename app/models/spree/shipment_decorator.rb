@@ -5,7 +5,7 @@ module Spree
         require 'shippo'
         require 'awesome_print'
 
-        Shippo::API.token = '8e4c4e6b24208336bef5e321446430dd24c8e69d'
+        Shippo::API.token = ENV['GOSHIPPO_API_KEY']
 
         $shipment_rate = nil
         for item in line_items do
