@@ -31,11 +31,11 @@ module Spree
 	                      phone:          address.phone,
 	                      email:          order.email },
 	                    parcels:         {
-	                      length:        item.variant.depth,
-	                      width:         item.variant.width,
-	                      height:        item.variant.height,
+	                      length:        item.default_variant.depth unless item.variant.depth,
+	                      width:         item.default_variant.width unless item.variant.width,
+	                      height:        item.default_variant.height unless item.variant.height,
 	                      distance_unit: :in,
-	                      weight:        item.variant.weight,
+	                      weight:        item.default_variant.weight unless item.variant.weight,
 	                      mass_unit:     :lb }
 	                  } 
 
