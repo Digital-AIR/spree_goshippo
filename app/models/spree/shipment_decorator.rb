@@ -44,6 +44,14 @@ module Spree
 	           if rate.attributes.present?
 	             if rate.attributes.first == "BESTVALUE"
 	           	   $shipment_rate = $shipment_rate.to_f + rate.amount.to_f
+
+	           	   goshippo_record = Spree::Goshippo.new()
+	           	   goshippo_record.order = order.number
+	           	   goshippo_record.user = order.email
+	           	   goshippo_record.product = item.variant.product.name
+	           	   goshippo_record.shipping_service = rate.provider.to_s + " " + rate.servicelevel.name.to_s
+	           	   goshippo_record.shipping_rate = rate.amount.to_f
+	           	   goshippo_record.save
 	               break
 	             end
 	           end

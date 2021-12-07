@@ -1,0 +1,64 @@
+<% content_for :page_title do %>
+  <%= "Goshippo" %>
+<% end %>
+
+<% content_for :table_filter do %>
+  <div data-hook="admin_goshippo_index_search">
+    <%= search_form_for [:admin, @search] do |f| %>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= label_tag :q_order_cont, Spree.t(:order) %>
+            <%= f.text_field :order_cont, tabindex: 1, class: "form-control js-quick-search-target" %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= label_tag :q_user_cont, Spree.t(:user) %>
+            <%= f.text_field :user_cont, tabindex: 1, class: "form-control js-quick-search-target" %>
+          </div>
+        </div>
+      </div>
+
+      <div data-hook="admin_goshippo_index_search_buttons" class="form-actions">
+        <%= button Spree.t(:filter_results), 'search' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%= render 'spree/admin/shared/index_table_options', collection: @collection  %>
+
+<% if @collection.any? %>
+  <table class="table" id="listing_video_reviews">
+    <thead>
+      <tr>
+        <th><%= "Order" %></th>
+        <th><%= "User" %></th>
+        <th><%= "Product" %></th>
+        <th><%= "Shipping Rate" %></th>
+        <th><%= "Shipping Service" %></th>
+        <th><%= sort_link @search, :created_at, Spree::Goshippo.human_attribute_name(:created_at) %></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <% @collection.each do |shippo| %>
+        <tr data-hook="admin_shippo_index_rows" id="<%= dom_id shippo %>" class="<%= cycle('odd', 'even') %>">
+          <td><%= shippo.order %></td>
+          <td><%= shippo.user %></td>
+          <td><%= shippo.product %></td>
+          <td><%= shippo.shipping_rate %></td>
+          <td><%= shippo.shipping_service %></td>
+          <td><%= l shippo.created_at, format: :short %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert alert-info no-objects-found">
+    <%= Spree.t(:no_resource_found, resource:plural_resource_name(Spree::Goshippo)) %>
+  </div>
+<% end %>
+<%= render 'spree/admin/shared/index_table_options', collection: @collection  %>
